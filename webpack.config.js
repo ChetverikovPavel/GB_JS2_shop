@@ -27,6 +27,20 @@ module.exports = {
       port: 9000,
     },
 
+    module: {
+      rules: [
+        {
+          test: /\.s[ac]ss$/i,
+          use: [
+            "style-loader",
+            "css-loader",
+            // Compiles Sass to CSS
+            "sass-loader",
+          ],
+        },
+      ],
+    },
+    
     mode: 'development',
     
 };
