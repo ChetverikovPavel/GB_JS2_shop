@@ -5,12 +5,12 @@ module.exports = {
     entry: {
         main: path.resolve(__dirname, './src/index.js'),
     },
-
+    
     output: {
       path: path.resolve(__dirname, './dist'),
       filename: '[name].bundle.js',
     },
-
+    
     plugins: [
       new HtmlWebpackPlugin({
           title: 'GeekBrains Shop JS2',
@@ -18,4 +18,15 @@ module.exports = {
           filename: 'index.html', // название выходного файла
       }),
     ],
-}
+    
+    devServer: {
+      static: {
+        directory: path.join(__dirname, 'public'),
+      },
+      compress: true,
+      port: 9000,
+    },
+
+    mode: 'development',
+    
+};
