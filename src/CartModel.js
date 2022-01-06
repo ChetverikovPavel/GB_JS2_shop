@@ -2,10 +2,11 @@ import { remove } from "lodash"
 import ProductList from "./ProductList"
 
 export default class CartModel extends ProductList{
-    constructor(apiHandler, eventEmitter) {
+    constructor(apiHandler, eventEmitter, view) {
         super([])
         this.api = apiHandler
         this.eventEmitter = eventEmitter
+        this.view = view
     }
 
     fetch(onError) {
@@ -13,11 +14,12 @@ export default class CartModel extends ProductList{
         (data) => {
             this.list = JSON.parse(data)
             this.eventEmitter.emit(`cartFethed`, this.list)
+            this.view.renderModalsList(this.list)
         },
         onError)
     }
     
-    add(product, onError) {
+    add(product) {
         this.api.addToCart(
         () => {
             this.list.push(product)
@@ -25,7 +27,6 @@ export default class CartModel extends ProductList{
         () => {
             
         }, 
-        onError,
         product
         )
     }
@@ -34,11 +35,13 @@ export default class CartModel extends ProductList{
         if(this.find(id)) {
             this.api.removeFromCart(
             () => {
-                this.remove()
-            },
-            onError,
-            this.list[index]
+                this.removed(id)
+                this.eventEmitter.emit(`removeItem`, id)
+            },() => {
+            
+            }, this.find(id)            
             )
+            
         }
     }
 }

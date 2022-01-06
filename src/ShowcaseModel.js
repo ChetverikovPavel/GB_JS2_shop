@@ -1,18 +1,20 @@
 import ProductList from "./ProductList"
 
 export default class ShowcaseModel extends ProductList{
-    constructor(apiHandler, eventEmitter, cart) {
+    constructor(apiHandler, eventEmitter, view, cart) {
         super([])
         this.api = apiHandler
         this.cart = cart
-        this.eventEmitter = eventEmitter        
+        this.eventEmitter = eventEmitter 
+        this.view = view       
     }
 
-    fetch(onError) {
+    fetch(onError, view) {
         this.api.getCatalog(
         (data) => {
             this.list = JSON.parse(data)
             this.eventEmitter.emit(`showcaseFethed`, this.list)
+            this.view.renderGoodsList(this.list)
         },
         onError
         )
