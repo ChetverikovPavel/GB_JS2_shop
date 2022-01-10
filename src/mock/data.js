@@ -13,7 +13,7 @@ const COLORS = [
   'red',
   'orange',
   'black',
-  'white'
+  'blue'
 ]
 
 let lastIndex = 0;
