@@ -5,7 +5,7 @@ import ShowcaseModel from "./ShowcaseModel";
 import View from "./Views";
 import "./style/style.scss";
 
-const API_URL = 'http://localhost:3000/api/v1'
+const API_URL = '/api/v1'
 
 const api = new ApiHandler(API_URL)
 const eventEmitter = new EventEmitter()
