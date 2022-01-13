@@ -1,8 +1,8 @@
-import ApiHandler from "./ApiHandler";
-import CartModel from "./CartModel";
-import EventEmitter from "./EventEmitter";
+import ApiHandler from "./ApiHandler.mjs";
+import CartModel from "./CartModel.mjs";
+import EventEmitter from "./EventEmitter.mjs";
 import ShowcaseModel from "./ShowcaseModel";
-import View from "./Views";
+import View from "./Views.mjs";
 import "./style/style.scss";
 
 const API_URL = '/api/v1'

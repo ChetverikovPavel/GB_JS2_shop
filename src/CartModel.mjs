@@ -1,12 +1,12 @@
-import { remove } from "lodash"
-import ProductList from "./ProductList"
+
+import ProductList from "./ProductList.mjs"
 
 export default class CartModel extends ProductList{
-    constructor(apiHandler, eventEmitter, view) {
+    constructor(apiHandler, eventEmitter /*,  view */) {
         super([])
         this.api = apiHandler
         this.eventEmitter = eventEmitter
-        this.view = view
+        // this.view = view
     }
 
     fetch(onError) {
@@ -14,7 +14,7 @@ export default class CartModel extends ProductList{
         (data) => {
             this.list = JSON.parse(data)
             this.eventEmitter.emit(`cartFethed`)
-            this.view.renderModalsList(this.list)
+           // this.view.renderModalsList(this.list)
         },
         onError)
     }

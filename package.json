@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "webpack-dev-server",
-    "build": "webpack"
+    "build": "webpack",
+    "test": "jasmine"
   },
   "author": "",
   "license": "ISC",
@@ -16,6 +17,7 @@
     "css-loader": "^6.5.1",
     "express": "^4.17.2",
     "html-webpack-plugin": "^5.5.0",
+    "jasmine": "^4.0.2",
     "mini-css-extract-plugin": "^2.4.5",
     "sass": "^1.45.1",
     "sass-loader": "^12.4.0",

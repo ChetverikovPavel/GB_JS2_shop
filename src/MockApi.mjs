@@ -1,4 +1,8 @@
-import { random } from 'lodash'
+// import { random } from 'lodash'
+
+function random() {
+    return 2
+}
 
 export default class MockApi {
     constructor() {
@@ -18,15 +22,15 @@ export default class MockApi {
             'orange',
             'black',
             'blue'
-        ]
-}
+        ]   
+    }
 
     getCatalog(onSuccess, onError) {
         onSuccess(JSON.stringify(this.getProductList(20)))
     }
 
     getCart(onSuccess) {
-        onSuccess(`[]`)
+        onSuccess(JSON.stringify(this.getProductList(3)))
     }
 
     addToCart(onSuccess, ) {
@@ -41,10 +45,10 @@ export default class MockApi {
 
 
     getProductName() {
-    const product = this.products[random(0, this.colors.length - 1)]
-    const color = this.colors[random(0, this.colors.length - 1)]
+        const product = this.products[random(0, this.colors.length - 1)]
+        const color = this.colors[random(0, this.colors.length - 1)]
 
-    return `${product} ${color}`;
+        return `${product} ${color}`;
     }
 
     getProduct() {
@@ -52,17 +56,17 @@ export default class MockApi {
         id: ++this.lastIndex,
         title: this.getProductName(),
         price: random(99, 999)
-    }
+        }   
     }
 
     getProductList(count) {
-    let products = [];
+        let products = [];
 
-    for(let i = 0; i < count; i++) {
-        products.push(this.getProduct());
-    }
+        for(let i = 0; i < count; i++) {
+            products.push(this.getProduct());
+        }
 
-    return products
+        return products
     }
     
 }
