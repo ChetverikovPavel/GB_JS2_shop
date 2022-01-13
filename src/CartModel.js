@@ -13,20 +13,18 @@ export default class CartModel extends ProductList{
         this.api.getCart(
         (data) => {
             this.list = JSON.parse(data)
-            this.eventEmitter.emit(`cartFethed`, this.list)
+            this.eventEmitter.emit(`cartFethed`)
             this.view.renderModalsList(this.list)
         },
         onError)
     }
     
-    add(product) {
+    add(product, onError) {
         this.api.addToCart(
         () => {
             this.list.push(product)
         },
-        () => {
-            
-        }, 
+        onError,
         product
         )
     }
@@ -36,10 +34,10 @@ export default class CartModel extends ProductList{
             this.api.removeFromCart(
             () => {
                 this.removed(id)
-                this.eventEmitter.emit(`removeItem`, id)
-            },() => {
-            
-            }, this.find(id)            
+                this.eventEmitter.emit(`removeItem`)
+            },
+            onError,
+            this.find(id)            
             )
             
         }

@@ -25,7 +25,7 @@ var openModal = function() {
  }
   
 
-eventEmitter.subscribe(`showcaseFethed`, (data) => {
+eventEmitter.subscribe(`showcaseFethed`, () => {
     setTimeout(() => {
         var cartButton = document.querySelector('.cart');
         cartButton.addEventListener('click',  function(event){
@@ -46,7 +46,7 @@ eventEmitter.subscribe(`showcaseFethed`, (data) => {
     },1500)
 })
 
-eventEmitter.subscribe(`cartFethed`, (data) => {
+eventEmitter.subscribe(`cartFethed`, () => {
     setTimeout(() => {
         var closeButton = document.querySelector('.close');
         closeButton.addEventListener('click', closeModal);
@@ -59,7 +59,7 @@ eventEmitter.subscribe(`cartFethed`, (data) => {
     })
 })
 
-eventEmitter.subscribe(`removeItem`, (data) => {
+eventEmitter.subscribe(`removeItem`, () => {
     setTimeout(() => {
         cart.fetch()
     }, 100)
