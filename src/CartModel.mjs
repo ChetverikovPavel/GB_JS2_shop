@@ -2,19 +2,17 @@
 import ProductList from "./ProductList.mjs"
 
 export default class CartModel extends ProductList{
-    constructor(apiHandler, eventEmitter /*,  view */) {
+    constructor(apiHandler, eventEmitter) {
         super([])
         this.api = apiHandler
         this.eventEmitter = eventEmitter
-        // this.view = view
     }
 
     fetch(onError) {
         this.api.getCart(
         (data) => {
             this.list = JSON.parse(data)
-            this.eventEmitter.emit(`cartFethed`)
-           // this.view.renderModalsList(this.list)
+            this.eventEmitter.emit(`cartFethed`, this.list)
         },
         onError)
     }

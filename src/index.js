@@ -25,7 +25,8 @@ var openModal = function() {
  }
   
 
-eventEmitter.subscribe(`showcaseFethed`, () => {
+eventEmitter.subscribe(`showcaseFethed`, (data) => {
+    view.renderGoodsList(data)
     setTimeout(() => {
         var cartButton = document.querySelector('.cart');
         cartButton.addEventListener('click',  function(event){
@@ -46,7 +47,8 @@ eventEmitter.subscribe(`showcaseFethed`, () => {
     },1500)
 })
 
-eventEmitter.subscribe(`cartFethed`, () => {
+eventEmitter.subscribe(`cartFethed`, (data) => {
+    view.renderModalsList(data)
     setTimeout(() => {
         var closeButton = document.querySelector('.close');
         closeButton.addEventListener('click', closeModal);
