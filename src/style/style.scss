@@ -18,7 +18,7 @@
     color: red;
 }
 
-.modal-container {
+#modal-container {
     position: fixed;
     left: 0;
     top: 0; 
@@ -51,7 +51,7 @@
 }
 
 
-  .modal-container.is-open { 
+  #modal-container.is-open { 
     pointer-events: all; 
     opacity: 1;
   }
