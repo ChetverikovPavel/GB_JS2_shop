@@ -10,13 +10,14 @@ import ProductCard from '../components/ProductCard.vue'
 export default {
   components: { ProductCard },
   name: 'Home',
-  props: [
-    'showcase',
-    'cart'
-  ],
+  computed: {
+    showcase() {
+      return this.$store.getters.getProducts
+    }
+  },
   methods: {
     onBuy(product) {
-      this.$emit('productAdd', product)
+      this.$store.dispatch('addToCart', product)
     }
   },
 }

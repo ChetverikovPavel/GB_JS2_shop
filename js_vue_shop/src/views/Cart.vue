@@ -10,13 +10,14 @@ import ProductCard from '../components/ProductCard.vue'
 export default {
   components: { ProductCard },
   name: 'Home',
-  props: [
-    'showcase',
-    'cart'
-  ],
+  computed: {
+    cart() {
+      return this.$store.getters.getCart
+    }
+  },
   methods: {
     onDelete(product) {
-      this.$emit('productDelete', product)
+      this.$store.dispatch('removeFromCart', product)
     }
   },
 }
