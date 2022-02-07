@@ -13,12 +13,14 @@ export default class View {
     };
     
     renderGoodsList = (list) => {
+        this.$showcase.innerHTML = '';
         let goodsList = list.map(
                 (item) =>  {
                     return this.renderGoodsItem(item)
                 }
             ).join('');
         this.$showcase.insertAdjacentHTML('beforeend', "<button class='cart'>Просмотр корзины</button>");
+        this.$showcase.insertAdjacentHTML('beforeend', '<input id="search-input" type="text"><button id="search-btn">Найти</button>') 
         this.$showcase.insertAdjacentHTML('beforeend', goodsList);
         }  
 
@@ -30,6 +32,7 @@ export default class View {
                 }
             ).join('');
         this.$modal.insertAdjacentHTML('beforeend', '<button class="close">Закрыть</button>')
+        this.$modal.insertAdjacentHTML('beforeend', '<input id="search-modal-input" type="text"><button id="search-modal-btn">Найти</button>') 
         this.$modal.insertAdjacentHTML('beforeend', modalList);
     }
 }
