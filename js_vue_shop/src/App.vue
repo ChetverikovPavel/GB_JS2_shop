@@ -2,12 +2,13 @@
   <div>
       <header>
         <h2>Vue Shop</h2>
+        <input v-model="query">
         <nav>
           <router-link to="/">Каталог</router-link>
           <router-link to="/cart">Корзина</router-link>
         </nav>
       </header>
-      <router-view :showcase="showcase" :cart="cart" v-on:productAdd="addToCart" v-on:productDelete="removeFromCart"></router-view>
+      <router-view/>
   </div>
 </template>
 
@@ -15,53 +16,21 @@
 const API_URL = '/api/v1'
 
 export default {
-  data() {
-    return {
-      showcase: [],
-      cart: []
-    }
-  },
-  methods: {
-    addToCart(product) {
-      fetch(`${API_URL}/cart`, {
-        method: 'POST',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(product)
-      })
-        .then(() => {
-          this.cart.push(product)
-        })
-    },
+  computed: {
+    query: {
+      get() {
+        return this.$store.getters.setFilter
+      },
 
-    removeFromCart(product) {
-      fetch(`${API_URL}/cart`, {
-        method: 'DELETE',
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(product)
-      })
-        .then(() => {
-          const index = this.cart.findIndex((item) => item.id == product.id)
-          this.cart.splice(index, 1)
-        })
+      set(value) {
+        this.$store.commit('setFilter', value)
+      }
     }
   },
   mounted() {
-    fetch(`${API_URL}/catalog`)
-      .then((req) => req.json())
-      .then((data) => {
-        this.showcase = data
-      }),
-    
-    fetch(`${API_URL}/cart`)
-      .then((req) => req.json())
-      .then((data) => {
-        this.cart = data
-      })
-  },
+    this.$store.dispatch('loadProducts'),
+    this.$store.dispatch('loadCart') 
+    }
 }
 </script>
 
@@ -84,8 +53,10 @@ export default {
       justify-content: space-between;
       width: 50%;
       align-items: center;
-      
-
-    }
+      }     
   }
+
+  .card{
+    margin: 20px;
+    }  
 </style>
