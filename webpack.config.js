@@ -31,6 +31,9 @@ module.exports = {
       },
       compress: true,
       port: 9000,
+      proxy: {
+        '/api/v1': 'http://localhost:3000',
+      },
     },
 
     module: {

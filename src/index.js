@@ -1,11 +1,11 @@
-import ApiHandler from "./ApiHandler";
-import CartModel from "./CartModel";
-import EventEmitter from "./EventEmitter";
+import ApiHandler from "./ApiHandler.mjs";
+import CartModel from "./CartModel.mjs";
+import EventEmitter from "./EventEmitter.mjs";
 import ShowcaseModel from "./ShowcaseModel";
-import View from "./Views";
+import View from "./Views.mjs";
 import "./style/style.scss";
 
-const API_URL = 'http://localhost:3000/api/v1'
+const API_URL = '/api/v1'
 
 const api = new ApiHandler(API_URL)
 const eventEmitter = new EventEmitter()
@@ -25,7 +25,7 @@ var openModal = function() {
  }
   
 
-eventEmitter.subscribe(`showcaseFethed`, (data) => {
+eventEmitter.subscribe(`showcaseFethed`, () => {
     setTimeout(() => {
         var cartButton = document.querySelector('.cart');
         cartButton.addEventListener('click',  function(event){
@@ -46,7 +46,7 @@ eventEmitter.subscribe(`showcaseFethed`, (data) => {
     },1500)
 })
 
-eventEmitter.subscribe(`cartFethed`, (data) => {
+eventEmitter.subscribe(`cartFethed`, () => {
     setTimeout(() => {
         var closeButton = document.querySelector('.close');
         closeButton.addEventListener('click', closeModal);
@@ -59,7 +59,7 @@ eventEmitter.subscribe(`cartFethed`, (data) => {
     })
 })
 
-eventEmitter.subscribe(`removeItem`, (data) => {
+eventEmitter.subscribe(`removeItem`, () => {
     setTimeout(() => {
         cart.fetch()
     }, 100)

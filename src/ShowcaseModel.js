@@ -1,4 +1,4 @@
-import ProductList from "./ProductList"
+import ProductList from "./ProductList.mjs"
 
 export default class ShowcaseModel extends ProductList{
     constructor(apiHandler, eventEmitter, view, cart) {
@@ -13,7 +13,7 @@ export default class ShowcaseModel extends ProductList{
         this.api.getCatalog(
         (data) => {
             this.list = JSON.parse(data)
-            this.eventEmitter.emit(`showcaseFethed`, this.list)
+            this.eventEmitter.emit(`showcaseFethed`)
             this.view.renderGoodsList(this.list)
         },
         onError
