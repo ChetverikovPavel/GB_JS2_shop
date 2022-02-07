@@ -1,13 +1,18 @@
-import getProductList from "./mock/data.js";
-import renderGoodsList from "./showcase.js";
-import renderModalsList from "./modal.js";
+import ApiHandler from "./ApiHandler";
+import CartModel from "./CartModel";
+import EventEmitter from "./EventEmitter";
+import ShowcaseModel from "./ShowcaseModel";
+import View from "./Views";
 import "./style/style.scss";
-import { send } from './utils.js'
 
 const API_URL = 'http://localhost:3000/api/v1'
 
-let productList = [];
-let cart = [];
+const api = new ApiHandler(API_URL)
+const eventEmitter = new EventEmitter()
+const view = new View()
+
+const cart = new CartModel(api, eventEmitter, view)
+const showcase = new ShowcaseModel(api, eventEmitter, view, cart)
 
 
 var modal = document.querySelector('.modal-container');
@@ -18,75 +23,51 @@ var openModal = function() {
  var closeModal = function() {
   modal.classList.remove('is-open')
  }
+  
 
+eventEmitter.subscribe(`showcaseFethed`, (data) => {
+    setTimeout(() => {
+        var cartButton = document.querySelector('.cart');
+        cartButton.addEventListener('click',  function(event){
+          openModal();
+          cart.fetch()
+        })
 
-send((error) => { console.log(err) }, (res) => { 
-  let list = JSON.parse(res);
-  productList = list;
-  renderGoodsList(productList);
-}, `${API_URL}/catalog`)
+        var addButtons = document.querySelectorAll(".InCart");
+        addButtons.forEach(function(elem) {
+            elem.addEventListener('click', function(event){
+                let buyed = {};
+                buyed.id = event.currentTarget.parentNode.dataset.id;
+                buyed.title = event.currentTarget.parentNode.querySelector('h3').innerText;
+                buyed.price = event.currentTarget.parentNode.querySelector('p').innerText;
+                cart.add(buyed)
+            })
+        })
+    },1500)
+})
 
-setTimeout(() => {
-  var addButtons = document.querySelectorAll(".InCart");
-  console.log(addButtons)
-  addButtons.forEach(function(elem) {
-    elem.addEventListener('click', function(event){
-      
-      let buyed = {};
-      buyed.id = event.currentTarget.parentNode.dataset.id;
-      buyed.title = event.currentTarget.parentNode.querySelector('h3').innerText;
-      buyed.price = event.currentTarget.parentNode.querySelector('p').innerText;      
-      console.log(buyed)
-      send((error) => { console.log(err) }, (res) => {
-        cart.push(buyed)
-      }, `${API_URL}/cart`, 'POST', JSON.stringify(buyed), {"Content-Type": "application/json"})
-    })
-  })
-}, 1000)
-
-setTimeout(() => {
-  var cartButton = document.querySelector('.cart');
-  console.log(cartButton)
-  cartButton.addEventListener('click',  function(event){
-    openModal();
-    
-    send((error) => { console.log(err) }, (res) => { 
-      let list = JSON.parse(res);
-      console.log(list);
-      productList = list;
-      renderModalsList(productList);
-      recurs();
-    }, `${API_URL}/cart`)
-    function recurs(){
-      setTimeout(() => {
+eventEmitter.subscribe(`cartFethed`, (data) => {
+    setTimeout(() => {
         var closeButton = document.querySelector('.close');
         closeButton.addEventListener('click', closeModal);
         var delButtons = document.querySelectorAll(".delCart");
-        console.log(delButtons)
         delButtons.forEach(function(elem) {
-          elem.addEventListener('click', function(event){
-            
-            let del = {};
-            del.id = event.currentTarget.parentNode.dataset.id;
-            del.title = event.currentTarget.parentNode.querySelector('h3').innerText;
-            del.price = event.currentTarget.parentNode.querySelector('p').innerText;      
-            console.log(del)
-            send((error) => { console.log(err) }, (res) => {
-              
-            }, `${API_URL}/cart`, 'DELETE', JSON.stringify(del), {"Content-Type": "application/json"})
-            send((error) => { console.log(err) }, (res) => { 
-              let list = JSON.parse(res);
-              console.log(list);
-              productList = list;
-              renderModalsList(productList);
-              recurs();
-            }, `${API_URL}/cart`)
-            
-          })
-        })
-      }, 2000)
-    }
-  })
-}, 1000)
+            elem.addEventListener('click', function(event){
+                cart.remove(event.currentTarget.parentNode.dataset.id)
+            })
+        },1500)
+    })
+})
+
+eventEmitter.subscribe(`removeItem`, (data) => {
+    setTimeout(() => {
+        cart.fetch()
+    }, 100)
+})
+
+
+
+showcase.fetch()
+
 
 
