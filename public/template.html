@@ -11,16 +11,27 @@
     <h1>GeekShop</h1>
   </header>
   <main>
-    <div class="modal-container"> 
-      
-      <div class="modal-content">
-        
+    <div id="app">
+      <div id="modal-container" v-bind:class="modalState">      
+        <div class="modal-content"> 
+          <button class="close" v-on:click="closeModal">Закрыть</button>
+          <input type="text" v-model="cartSearchLine">
+          <button v-on:click="cartFilter">Поиск</button>
+          <cart-list v-bind:carts="filteredCarts"></cart-list> 
+        </div>
       </div>
-    </div>
-    <div class="showcase"></div>
+      <div class="showcase">
+        <button class='cart' v-on:click="openModal">Просмотр корзины</button>
+        <input type="text" v-model="searchLine">
+        <button v-on:click="productFilter">Поиск</button>
+        <products-list v-bind:products="filteredProducts"></products-list>
+      </div>
+   </div>
   </main>
   <footer>
     <p>2021 &copy;</p>
   </footer>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
 </body>
 </html>

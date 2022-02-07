@@ -8,7 +8,7 @@ export default class ShowcaseModel extends ProductList{
         this.eventEmitter = eventEmitter     
     }
 
-    fetch(onError, view) {
+    fetch(onError) {
         this.api.getCatalog(
         (data) => {
             this.list = JSON.parse(data)
